@@ -31,8 +31,11 @@ qpdf.encrypt(localFilePath, options);
 
 ### Options for Encryption
 The following are **required options**
-* `keyLength:` - a number which defines the encryption algorithm to be used. Values can be **40, 128 and 256** only.
 * `password:` - a string containing the secret password which will be further used to unlock the PDF or an object containing `user` and `owner` for setting password for different roles.
+
+The following options are optional:
+* `keyLength:` - a number which defines the encryption algorithm to be used. Values can be **40, 128 and 256** only (default: 256)
+* `outputFile:` - Filename to output to. By default, output goes to `stdout` and can be streamed.
 
 You might want to set other options for each encryption algorithm inside `restrictions:` JSON according to the `keyLength` you choose :-
 
@@ -78,7 +81,7 @@ var options = {
     }
 }
 
-qpdf.encrypt(localFilePath, options, outputFilePath);
+qpdf.encrypt(localFilePath, options);
 ```
 or
 ```
@@ -96,7 +99,7 @@ var options = {
   }
 };
 
-qpdf.encrypt(localFilePath, options, outputFilePath);
+qpdf.encrypt(localFilePath, options);
 ```
 
 #### Render and Stream:
@@ -112,9 +115,9 @@ var options = {
     }
 }
 
-var doc = qpdf.encrypt(localFilePath, options, outputFilePath);
+var stdout = qpdf.encrypt(localFilePath, options);
 
-doc.stdout.pipe(res);
+stdout.pipe(res);
 
 res.writeHead(200, {
     'Content-Type': 'application/pdf',
@@ -136,15 +139,15 @@ qpdf.decrypt(localFilePath, 'YOUR_PASSWORD_TO_DECRYPT_PDF');
 ```
 var qpdf = require('node-qpdf');
 
-qpdf.decrypt(localFilePath, 'YOUR_PASSWORD_TO_DECRYPT_PDF', outputFilePath);
+qpdf.decrypt(localFilePath, 'YOUR_PASSWORD_TO_DECRYPT_PDF');
 ```
 #### Render and Stream:
 ```
 var qpdf = require('node-qpdf');
 
-var doc = qpdf.decrypt(localFilePath, 'YOUR_PASSWORD_TO_DECRYPT_PDF', outputFilePath);
+var stdout = qpdf.decrypt(localFilePath, 'YOUR_PASSWORD_TO_DECRYPT_PDF');
 
-doc.stdout.pipe(res);
+stdout.pipe(res);
 
 res.writeHead(200, {
     'Content-Type': 'application/pdf',
